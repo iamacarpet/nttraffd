@@ -105,7 +105,7 @@ bool write_to_db(string url, int clientid, string authKey, int day, int month, i
         
         // Did we succeed?  
         if (result == CURLE_OK){
-            if (buffer.compare("1")){
+            if (buffer.compare("1") == 0){
                 return true;
             } else {
                 logWrite("Failed to push to server.");
