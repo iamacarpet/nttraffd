@@ -85,6 +85,8 @@ bool write_to_db(string url, int clientid, string authKey, int day, int month, i
     CURLcode result;
 
     curl = curl_easy_init();
+    
+    buffer = "";
 
     if (curl){
         // Now set up all of the curl options  
@@ -103,8 +105,12 @@ bool write_to_db(string url, int clientid, string authKey, int day, int month, i
         
         // Did we succeed?  
         if (result == CURLE_OK){
-            logWrite("Pushed to server OK");
-            return true;
+            if (buffer.compare("1")){
+                return true;
+            } else {
+                logWrite("Failed to push to server.");
+                return false;
+            }
         } else {
             logWrite("Failed to push to server.");
             return false; 
