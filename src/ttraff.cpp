@@ -105,6 +105,7 @@ bool write_to_db(string url, int clientid, string authKey, int day, int month, i
         
         // Did we succeed?  
         if (result == CURLE_OK){
+            //logWrite(buffer);
             if (buffer.compare("1") == 0){
                 return true;
             } else {
