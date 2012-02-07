@@ -20,6 +20,7 @@
 #include "ttraff.h"
 #include "functions.h"
 #include "config.h"
+#include "libs/pidfile.h"
 
 using namespace std;
 
@@ -57,6 +58,10 @@ int main(){
 	//if ((chdir("/var/ttraff/")) < 0) {
 	//	return 0;
 	//}
+    
+    pidfile pf("/var/run/nttraffd.pid");
+    
+    pf.write();
 
 	/* Close out the standard file descriptors */
 	close(STDIN_FILENO);
