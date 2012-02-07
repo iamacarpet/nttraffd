@@ -38,8 +38,8 @@
     unlock and remove it on destruction. */
 class pidfile {
   public:
-    pidfile::pidfile(const std::string &filename);
-    pidfile::pidfile(const char * const filename);
+    pidfile(const std::string &filename);
+    pidfile(const char * const filename);
     virtual ~pidfile();
 
     /** Open and lock pidfile, write current process PID to it. */

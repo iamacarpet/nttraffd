@@ -56,17 +56,14 @@ pidfile::pidfile(const char * const filename)
 
 
 void
-pidfile::write()
-{
+pidfile::write(){
   // open pidfile for writing
   pidfile_fd = open(pidfile_path.c_str(), 
                     O_WRONLY|O_CREAT|O_NOFOLLOW, 0644);
   if (0 > pidfile_fd)
     {
-      int err = errno;
       std::ostringstream msg;
-      msg << "Cannot open pidfile '" << pidfile_path.c_str() << "': "
-          << strerror(err);
+      msg << "Cannot open pidfile '" << pidfile_path.c_str() << "': ";
       throw std::runtime_error(msg.str());
     }
 
@@ -74,10 +71,9 @@ pidfile::write()
   int rc = lockf(pidfile_fd, F_TLOCK, 0);
   if (-1 == rc)
     {
-      int err = errno;
+
       std::ostringstream msg;
-      msg << "Cannot lock pidfile '" << pidfile_path << "': "
-          << strerror(err);
+      msg << "Cannot lock pidfile '" << pidfile_path << "': ";
       throw std::runtime_error(msg.str());
     }
 
