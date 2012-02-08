@@ -16,22 +16,25 @@ apt-get install build-essential libcurl-dev
 
 And the build command to be run inside the src directory is:
 
- g++ -lcurl main.cpp ttraff.cpp functions.cpp config.cpp libs/Chameleon.cpp -o /usr/local/bin/nttraffd
+make && make install
  
 The config file then needs to be created and edited here:
- /etc/nttraffd.conf
+
+/etc/nttraffd.conf
  
 And finally, run it with:
 
- /usr/local/bin/nttraffd
+/usr/local/bin/nttraffd
  
 ## Starting on boot
 
 To start this on boot, please use the demo init.d script in the etc/init.d folder and copy it to your /etc/init.d folder.
- cp etc/init.d/nttraffd /etc/init.d/
+
+cp etc/init.d/nttraffd /etc/init.d/
 
 Then activate it for on boot with:
- update-rc.d nttraffd defaults
+
+update-rc.d nttraffd defaults
  
 And you should be sorted.
     
