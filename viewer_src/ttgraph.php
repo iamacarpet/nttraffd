@@ -86,10 +86,10 @@ function formatSize($bytes, $precision = 2) {
 
     // Uncomment one of the following alternatives
     // $bytes /= pow(1024, $pow);
-    // $bytes /= (1 << (10 * $pow)); 
+    $bytes /= (1 << (10 * $pow)); 
 
     return round($bytes, $precision) . ' ' . $units[$pow]; 
-} 
+}
 
 $outputStream = "";
 
@@ -102,8 +102,6 @@ $sent = array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 $max = 5;
 $smax = 5;
 $f = 1;
-
-$units = array('MB', 'GB', 'TB'); 
 
 $totin = 0;
 $totout = 0;
@@ -143,8 +141,38 @@ while ($max > $smax) {
     $f = $f * 10;
 }
 
-$pow = floor(($smax ? log($smax) : 0) / log(1024)); 
-$pow = min($pow, count($units) - 1); 
+$devi = 0;
+$st = 'MB';
+
+if ($smax > 1000000000){ 
+	$devi = 3;
+	$smax = (($smax / 1000) / 1000) / 1000;
+	$st = 'PB';
+} else if ($smax > 1000000){
+	$devi = 2;
+	$smax = ($smax / 1000) / 1000;
+	$st = 'TB';
+} else if ($smax > 1000){
+	$devi = 1;
+	$smax = $smax / 1000;
+	$st = 'GB';
+}
+
+function formatGlobal($num){
+	global $st, $devi;
+	for ($i = 0; $i < $devi; $i++){
+		$num = $num / 1000;
+	}
+	return round($num, 2) . ' ' . $st;
+}
+
+function ppow($num){
+    global $devi;
+    for ($i = 0; $i < $devi; $i++){
+        $num = $num / 1000;
+    }
+    return $num;
+}
 
 $incom = "Incoming";
 $outcom = "Outgoing";
@@ -175,8 +203,8 @@ $monthname = $months[$month-1];
                 #t-graph li.day_sun {height: 298px; padding-top: 2px; border-right: 1px dotted #C4C4C4; color: #E00;}
                 #t-graph li.bar {width: 4px; border: 1px solid; border-bottom: none; color: #000;}
                 #t-graph li.bar p {margin: 5px 0 0; padding: 0;}
-                #t-graph li.rcvd {left: 3px; background: #228B22;} <!-- set rcvd bar colour here (green) -->
-                #t-graph li.sent {left: 8px; background: #CD0000;} <!-- set sent bar colour here (red) -->
+                #t-graph li.rcvd {left: 3px; background: #228B22;} <?php /* set rcvd bar colour here (green) */ ?>
+                #t-graph li.sent {left: 8px; background: #CD0000;} <?php /* set sent bar colour here (red) */ ?>
                 <?php
                 for ($i = 0; $i < $days - 1; $i++) {
                     ?>
@@ -196,10 +224,10 @@ $monthname = $months[$month-1];
             <?php
             for ($i = 0; $i < $days; $i++) {
                 ?>
-                <li class="day<?= ($wd % 7) == 6 ? "_sun" : "" ?>" id="d<?= $i + 1?>" onmouseover="Show('<?= $monthname ?> <?= $i+1 ?>, <?= $year ?> (<?= $incom ?>: <?= formatSize($rcvd[$i]) ?> / <?= $outcom ?>: <?= formatSize($sent[$i]) ?>)')" onmouseout="Show('<?= $monthname ?>, <?= $year ?> (<?= $incom ?>: <?= formatSize($totin) ?> / <?= $outcom ?>: <?= formatSize($totout) ?>)')"><?= $i+1 ?>
+                <li class="day<?= ($wd % 7) == 6 ? "_sun" : "" ?>" id="d<?= $i + 1?>" onmouseover="Show('<?= $monthname ?> <?= $i+1 ?>, <?= $year ?> (<?= $incom ?>: <?= formatSize($rcvd[$i]) ?> / <?= $outcom ?>: <?= formatSize($sent[$i]) ?>)')" onmouseout="Show('<?= $monthname ?>, <?= $year ?> (<?= $incom ?>: <?= formatGlobal($totin) ?> / <?= $outcom ?>: <?= formatGlobal($totout) ?>)')"><?= $i+1 ?>
                     <ul>
-                        <li class="rcvd bar" style="height: <?= $rcvd[$i] * 300 / $smax ?>px;"><p></p></li>
-                        <li class="sent bar" style="height: <?= $sent[$i] * 300 / $smax ?>px;"><p></p></li>
+                        <li class="rcvd bar" style="height: <?= ppow($rcvd[$i]) * 300 / $smax ?>px;"><p></p></li>
+                        <li class="sent bar" style="height: <?= ppow($sent[$i]) * 300 / $smax ?>px;"><p></p></li>
                     </ul>
                 </li>
                 <?php
@@ -210,13 +238,13 @@ $monthname = $months[$month-1];
             <?php
             for ($i = 5; $i; $i--){ // scale
                 ?>
-                <div class="tick" style="height: 59px;"><p><?= $smax * $i / 5 ?><?= $smax > 10000 ? " " : "&nbsp;" ?></p></div>
+                <div class="tick" style="height: 59px;"><p><?= round($smax * $i / 5,2) ?><?= $smax > 10000 ? " " : "&nbsp;" ?></p></div>
                 <?php
             }
             ?>
             </li>
 
-            <li id="label"><?= $monthname ?> <?= $year ?> (<?= $incom ?>: <?= formatSize($totin) ?> / <?= $outcom ?>: <?= formatSize($totout) ?>)</li>
+            <li id="label"><?= $monthname ?> <?= $year ?> (<?= $incom ?>: <?= formatGlobal($totin) ?> / <?= $outcom ?>: <?= formatGlobal($totout) ?>)</li>
         </ul>
     </body>
 </html>
