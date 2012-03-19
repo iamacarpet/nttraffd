@@ -1,7 +1,8 @@
 CREATE TABLE user_info (
     ID int(15) NOT NULL AUTO_INCREMENT,
     ServerName varchar(50) NOT NULL,
-    ServerKey varchar(25) NOT NULL
+    ServerKey varchar(25) NOT NULL,
+    PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS `traffic_info` (
