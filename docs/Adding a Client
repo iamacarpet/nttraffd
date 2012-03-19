@@ -1,0 +1,18 @@
+Adding a new client is as simple as adding a row to the table that lists all of the allowed clients.
+
+You will need a name for the client - In our example, we'll use 'Phillip.vpn'.
+And an auth code, which is a 25 char random string, which for our example we'll use: hiU673Lvom1LV0KzRP6I68ppB
+Don't use that auth code in practice though, yours needs to be kept secret!
+
+Using our example, the SQL query to create this client would be:
+
+INSERT INTO user_info (ServerName, ServerKey) VALUES ('Phillip.vpn', 'hiU673Lvom1LV0KzRP6I68ppB');
+
+From here, you will need to check which ID your server is given - This is an auto generated value.
+For this example, we'll say we were given ID 1.
+
+In the clients /etc/nttraffd.conf file, this would mean the client section would be as follows:
+
+[client]
+id = 1
+authcode = hiU673Lvom1LV0KzRP6I68ppB

@@ -37,14 +37,10 @@ Then activate it for on boot with:
 update-rc.d nttraffd defaults
  
 And you should be sorted.
-    
-## Usage
 
-I'll add some details about usage here shortly.
+## Documentation & Usage
 
-## Documentation
-
-Documentation is in the making. 
+Please see the docs folder for more details. 
 
 ## Open Source Projects Used
 

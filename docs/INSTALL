@@ -1,0 +1,42 @@
+The installation of nttraffd requires two parts:
+    * A single server instance.
+    * nttraffd client daemon.
+
+To view your bandwidth logs, you will also need our grapher script.
+
+The server is a PHP script with a MySQL backend and as such needs to be run by a webserver supporting those.
+
+For best performance and reliability I recommend using Apache2 with PHP5 set up as a FastCGI.
+
+Server Installation
+=====================
+
+1. Create a MySQL database and user for the nttraffd scripts to use.
+2. Run init.sql from the server_src folder against the database.
+3. Copy index.php from the server_src folder into the place you want it to run from.
+4. Edit the top of the file to contain your correct MySQL details.
+
+That is your server set up correctly.
+
+Client Installation
+=====================
+
+1. To build this package on Ubuntu 10.04, you will need to run - apt-get install build-essential libcurl-dev
+2. cd into the src directory and run: make && make install
+3. Copy nttraffd.conf from the etc directory into /etc and edit to match your server and auth details (see adding a client).
+4. Run it with the command nttraffd
+
+The nttraffd daemon can usually be run as a non-privileged user.
+When running a grsec kernel, the daemon will need to be run as root.
+
+To start the client on boot:
+
+1. Copy etc/init.d/nttraffd to your /etc/init.d folder.
+2. Make sure it's executable: chmod 755 /etc/init.d/nttraffd
+3. Make it run on boot with: update-rc.d defaults nttraffd
+
+Graph Viewer Installation
+=====================
+
+1. Copy the ttgraph.php file from the viewer_src folder to where you would like it to run from.
+2. Edit the MySQL details at the top of the page to reflect your server installation.

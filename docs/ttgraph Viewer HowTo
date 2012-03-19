@@ -1,0 +1,13 @@
+The ttgraph.php should be a drop in place script, but before you can start getting graphs from it, you need to know how to ask it for what you want.
+
+The script itself will generate a HTML page with just a graph and no further details, designed for embedding within a page using an iframe.
+
+The currect format for this is:
+
+ttgraph.php?id=<client id>&if=<interface id>&m=<month>&y=<year>
+
+So for our example, we want the graph for eth0 of client 1 showing January 2012.
+
+The URL for this would be:
+
+ttgraph.php?id=1&if=eth0&m=1&y=2012
