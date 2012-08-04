@@ -1,7 +1,7 @@
 all: nttraffd
 
 nttraffd: main.o ttraff.o functions.o config.o pidfile.o Chameleon.o
-	g++ -lcurl main.o ttraff.o functions.o config.o pidfile.o Chameleon.o -o nttraffd
+	g++ main.o ttraff.o functions.o config.o pidfile.o Chameleon.o -o nttraffd -lcurl
 
 main.o: main.cpp main.h
 	g++ -c main.cpp
