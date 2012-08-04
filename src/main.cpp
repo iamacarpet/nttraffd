@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <sstream>
+#include <sys/stat.h>
 // Our headers
 #include "ttraff.h"
 #include "functions.h"
